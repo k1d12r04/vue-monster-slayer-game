@@ -19,9 +19,15 @@ const app = Vue.createApp({
 
   computed: {
     monsterBarStyles() {
+      if (this.monsterHealth <= 0) {
+        return { width: '0%' };
+      }
       return { width: this.monsterHealth + '%' };
     },
     playerBarStyles() {
+      if (this.playerHealth <= 0) {
+        return { width: '0%' };
+      }
       return { width: this.playerHealth + '%' };
     },
     specialAttackIsDisable() {
@@ -40,7 +46,7 @@ const app = Vue.createApp({
 
   methods: {
     displayLog(text, playerValue) {
-      this.logs.push(
+      this.logs.unshift(
         `Player ${text} ${playerValue} and Monster damage ${this.attackValueMonster}`
       );
     },
@@ -48,7 +54,11 @@ const app = Vue.createApp({
     restartGame() {
       this.playerHealth = 100;
       this.monsterHealth = 100;
+      this.roundCounter = 1;
       this.logs = [];
+      this.attackValuePlayer = 0;
+      this.attackValueMonster = 0;
+      this.healValue = 0;
     },
 
     surrender() {
